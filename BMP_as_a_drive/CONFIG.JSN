@@ -1,0 +1,16 @@
+{"config":{"version":2,
+"device_info":{"vid":"0x0000","pid":"0x0000","name":"miku_machina","manufacture":"@miku_machina","description":"semi-split"},
+"matrix":{"rows":8,"cols":6,"device_rows":8,"device_cols":6,"debounce":1,"is_left_hand":1,"diode_direction":0,"row_pins":[1,2,7,8,9,10,11,12],"col_pins":[13,14,15,16,17,18],
+"layout":[
+ 18, 12,  6, 30, 36, 42,  0,
+ 17, 11,  5,  1, 21, 45, 25, 29, 35, 41,  0,
+ 16, 10,  4,  2, 22, 46, 26, 28, 34, 40,  0,
+ 15,  9,  3, 19, 23, 47, 43, 27, 33, 39,  0,
+ 14,  8, 20, 24, 48, 44, 32, 38,  0,
+ 13,  7, 31, 37]},
+"mode":"SINGLE","startup":0,
+"peripheral":{"max_interval":60,"min_interval":30,"slave_latency":7},
+"central":{"max_interval":60,"min_interval":30,"slave_latency":7},
+"led":{"pin":255,"num":128},
+"keymap":{"locale":"JP","use_ascii":0},
+"reserved":[0,0,0,0,0,0,0,0]}}
