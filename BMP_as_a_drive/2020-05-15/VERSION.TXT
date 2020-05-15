@@ -1,0 +1,4 @@
+API version: 5
+Config version: 2
+Build from: bmp-0.4.2-5-g693e0d9eb
+Build Target: ble_micro_pro_machina_tb_module_machina4
