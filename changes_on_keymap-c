@@ -1,0 +1,43 @@
+ここで開発している入力デバイスは、コントローラーとして BLE Micro Pro を使用しています。
+また、トラックボールとしては  [adns7530-breakout](https://nogikes.booth.pm/items/1920240)を使っています。
+
+ファームウェアは [https://github.com/sekigon-gonnoc/qmk_firmware/tree/dev/ble_micro_pro/keyboards/ble_micro_pro/keymaps/tb_module](https://github.com/sekigon-gonnoc/qmk_firmware/tree/dev/ble_micro_pro/keyboards/ble_micro_pro/keymaps/tb_module/)を使っていました。 
+
+はじめ、マウスキーのホールドができず、ドラッグ＆ドロップも、範囲選択も、ファイルエクスプローラーでファイルを右ボタンドラッグしてのコピーやショートカットの作成もできませんでした。
+
+そこで、Self-Made Keyboards in Japan にて相談させていただいた(qmk の [ポスト](https://discord.com/channels/376937950409392130/448305600372408326/709427320011751424)から)結果として、[ここ](https://discord.com/channels/376937950409392130/448305600372408326/710069847534469183)にあるように、
+
+\keyboards\ble_micro_pro\keymaps\tb_module\keymap.c の process_record_user の switch (keycode) {}内に
+次のコードを追加することで、マウスキーのホールドができるようになりました。
+    case KC_BTN1:
+        if (record->event.pressed) {
+            tb_button |= 1;
+        } else {
+            tb_button &= ~1;
+        }
+        return false;
+        break;
+    case KC_BTN2:
+        if (record->event.pressed) {
+            tb_button |= 1 << 1;
+        } else {
+            tb_button &= ~(1 << 1);
+        }
+        return false;
+        break;
+
+これは、せきごん（_gonnoc）さんが教えてくださった、
+>mouse_keysとpointing_deviceのレポートは連動していないので、process_record_userとかでKC_BTNを処理してpointing_deviceのレポートに詰め直す必要があります
+>keyboards/kugelを参考にしていただければ
+というところから、/keyboard/kugel/以下と/keyboards/ble_micro_pro/以下を比べていて気付くことができた結果です。
+
+この tb_button に値を設定する部分がなかったことと、process_record_user に KC_BTN1 等が入っていなかったことにより、
+マウスとしてではなく、キーボードとしてマウスキーのコードがホストに報告されていたということのようです。
+
+process_record_user で処理されたキーコードはホストに報告されず（自分でキー入力処理を書けば報告される）、
+tb_button に値がなければ、マウスとしてボタンが押されたという報告にならない、
+ということだと思います。
+
+お教えくださった皆様、ありがとうございました。
+
+
